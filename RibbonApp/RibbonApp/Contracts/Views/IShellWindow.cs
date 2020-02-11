@@ -12,6 +12,8 @@ namespace RibbonApp.Contracts.Views
 
         void ShowWindow();
 
+        void CloseWindow();
+
         Frame GetRightPaneFrame();
 
         SplitView GetSplitView();
