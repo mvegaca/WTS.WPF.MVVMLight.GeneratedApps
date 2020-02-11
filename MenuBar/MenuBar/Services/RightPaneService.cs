@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 
 using MahApps.Metro.Controls;
@@ -15,6 +16,10 @@ namespace MenuBar.Services
         private object _lastParameterUsed;
         private SplitView _splitView;
 
+        public event EventHandler PaneOpened;
+
+        public event EventHandler PaneClosed;
+
         public RightPaneService(IPageService pageService)
         {
             _pageService = pageService;
@@ -25,6 +30,7 @@ namespace MenuBar.Services
             _frame = rightPaneFrame;
             _splitView = splitView;
             _frame.Navigated += OnNavigated;
+            _splitView.PaneClosed += OnPaneClosed;
         }
 
         public void OpenInRightPane(string pageKey, object parameter = null)
@@ -46,6 +52,7 @@ namespace MenuBar.Services
             }
 
             _splitView.IsPaneOpen = true;
+            PaneOpened?.Invoke(_splitView, EventArgs.Empty);
         }
 
         private void OnNavigated(object sender, NavigationEventArgs e)
@@ -60,5 +67,8 @@ namespace MenuBar.Services
                 }
             }
         }
+
+        private void OnPaneClosed(object sender, EventArgs e)
+            => PaneClosed?.Invoke(sender, e);
     }
 }

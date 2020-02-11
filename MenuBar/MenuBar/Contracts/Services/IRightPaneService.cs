@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 using MahApps.Metro.Controls;
 
@@ -6,6 +7,10 @@ namespace MenuBar.Contracts.Services
 {
     public interface IRightPaneService
     {
+        event EventHandler PaneOpened;
+
+        event EventHandler PaneClosed;
+
         void OpenInRightPane(string pageKey, object parameter = null);
 
         void Initialize(Frame rightPaneFrame, SplitView splitView);

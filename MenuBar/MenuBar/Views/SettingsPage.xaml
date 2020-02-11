@@ -43,7 +43,7 @@
                         FontSize="{StaticResource MediumFontSize}"
                         IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light}">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
+                            <i:EventTrigger EventName="Checked">
                                 <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Light" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -55,7 +55,7 @@
                         FontSize="{StaticResource MediumFontSize}"
                         IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark}">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
+                            <i:EventTrigger EventName="Checked">
                                 <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Dark" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -76,9 +76,14 @@
                 Style="{StaticResource BodyTextStyle}"
                 Text="{x:Static strings:Resources.SettingsPageAboutText}" />
 
-            <TextBlock Margin="{StaticResource SmallTopMargin}">
-                <Hyperlink Command="{Binding PrivacyStatementCommand}">
+            <TextBlock
+                Margin="{StaticResource SmallTopMargin}"
+                AutomationProperties.Name="{Binding Text, ElementName=settingsPrivacyStatement}">
+                <Hyperlink
+                    Command="{Binding PrivacyStatementCommand}"
+                    AutomationProperties.Name="{Binding Text, ElementName=settingsPrivacyStatement}">
                     <TextBlock
+                        x:Name="settingsPrivacyStatement"
                         Style="{StaticResource BodyTextStyle}"
                         Text="{x:Static strings:Resources.SettingsPagePrivacyStatementText}" />
                 </Hyperlink>
