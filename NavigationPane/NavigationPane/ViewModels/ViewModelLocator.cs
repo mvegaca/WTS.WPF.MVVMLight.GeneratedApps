@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -37,16 +38,25 @@ namespace NavigationPane.ViewModels
 
         public ViewModelLocator()
         {
+            // App Host
+            SimpleIoc.Default.Register<IApplicationHostService, ApplicationHostService>();
+
+            // Core Services
+            SimpleIoc.Default.Register<ISampleDataService, SampleDataService>();
+            SimpleIoc.Default.Register<IFileService, FileService>();
+
+            // Services
             SimpleIoc.Default.Register<IWindowManagerService, WindowManagerService>();
             SimpleIoc.Default.Register<IPersistAndRestoreService, PersistAndRestoreService>();
             SimpleIoc.Default.Register<IThemeSelectorService, ThemeSelectorService>();
-            SimpleIoc.Default.Register<ISampleDataService, SampleDataService>();
-            SimpleIoc.Default.Register<IFilesService, FilesService>();
             SimpleIoc.Default.Register<IPageService, PageService>();
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
+
+            // Window
             SimpleIoc.Default.Register<IShellWindow, ShellWindow>();
             SimpleIoc.Default.Register<ShellViewModel>();
-            SimpleIoc.Default.Register<IApplicationHostService, ApplicationHostService>();
+
+            // Pages
             Register<MainViewModel, MainPage>();
             Register<MasterDetailViewModel, MasterDetailPage>();
             Register<WebViewViewModel, WebViewPage>();

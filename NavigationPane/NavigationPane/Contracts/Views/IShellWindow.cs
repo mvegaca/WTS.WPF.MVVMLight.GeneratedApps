@@ -7,5 +7,7 @@ namespace NavigationPane.Contracts.Views
         Frame GetNavigationFrame();
 
         void ShowWindow();
+
+        void CloseWindow();
     }
 }

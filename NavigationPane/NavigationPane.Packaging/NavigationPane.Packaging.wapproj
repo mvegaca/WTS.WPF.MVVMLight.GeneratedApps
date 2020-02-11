@@ -50,9 +50,9 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>3BA51A54-C91F-4A66-B8D1-AA575B8779BA</ProjectGuid>
+    <ProjectGuid>23C4183C-8CF1-46AC-A6AD-9FC57B5AD5CA</ProjectGuid>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\NavigationPane\NavigationPane.csproj</EntryPointProjectUniqueName>

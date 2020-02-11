@@ -46,6 +46,12 @@ namespace NavigationPane.Services
             }
         }
 
+        public void UnsubscribeNavigation()
+        {
+            _frame.Navigated -= OnNavigated;
+            _frame = null;
+        }
+
         public void GoBack()
             => _frame.GoBack();
 
