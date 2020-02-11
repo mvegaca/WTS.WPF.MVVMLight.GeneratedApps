@@ -22,6 +22,9 @@ namespace MenuBar.Views
         public void ShowWindow()
             => Show();
 
+        public void CloseWindow()
+            => Close();
+
         public SplitView GetSplitView()
             => splitView;
     }

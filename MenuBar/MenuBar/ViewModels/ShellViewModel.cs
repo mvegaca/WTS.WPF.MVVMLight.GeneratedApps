@@ -10,27 +10,29 @@ using MenuBar.Strings;
 
 namespace MenuBar.ViewModels
 {
-    public class ShellViewModel : ViewModelBase, IDisposable
+    public class ShellViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IRightPaneService _rightPaneService;
 
         private RelayCommand _goBackCommand;
         private ICommand _menuFileSettingsCommand;
-
         private ICommand _menuViewsWebViewCommand;
-
         private ICommand _menuViewsMasterDetailCommand;
-
         private ICommand _menuViewsMainCommand;
-
         private ICommand _menuFileExitCommand;
+        private ICommand _loadedCommand;
+        private ICommand _unloadedCommand;
 
         public RelayCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new RelayCommand(OnGoBack, CanGoBack));
 
         public ICommand MenuFileSettingsCommand => _menuFileSettingsCommand ?? (_menuFileSettingsCommand = new RelayCommand(OnMenuFileSettings));
 
         public ICommand MenuFileExitCommand => _menuFileExitCommand ?? (_menuFileExitCommand = new RelayCommand(OnMenuFileExit));
+
+        public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
+
+        public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(OnUnloaded));
 
         public ShellViewModel(INavigationService navigationService, IRightPaneService rightPaneService)
         {
@@ -39,7 +41,11 @@ namespace MenuBar.ViewModels
             _rightPaneService = rightPaneService;
         }
 
-        public void Dispose()
+        private void OnLoaded()
+        {
+        }
+
+        private void OnUnloaded()
         {
             _navigationService.Navigated -= OnNavigated;
         }
