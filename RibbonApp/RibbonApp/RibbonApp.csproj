@@ -26,14 +26,17 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0" />
-    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Fluent.Ribbon" Version="7.0.1" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.1" />
+    <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RibbonApp.Core\RibbonApp.Core.csproj">
-      <Project>{48980b7c-39c8-41dd-8e91-f1b2a9e1ee48}</Project>
+      <Project>{d18b54ef-74cc-48a9-8a3d-e6d7d528e474}</Project>
       <Name>RibbonApp.Core</Name>
     </ProjectReference>
   </ItemGroup>

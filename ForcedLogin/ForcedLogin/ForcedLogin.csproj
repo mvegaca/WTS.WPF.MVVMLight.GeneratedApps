@@ -36,7 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ForcedLogin.Core\ForcedLogin.Core.csproj">
-      <Project>{7b578dce-9366-400c-b21c-d057d52df397}</Project>
+      <Project>{c202e183-9ee8-4ae5-a88b-86a4bbb0d4a8}</Project>
       <Name>ForcedLogin.Core</Name>
     </ProjectReference>
   </ItemGroup>

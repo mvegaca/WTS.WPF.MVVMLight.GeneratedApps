@@ -32,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MenuBar.Core\MenuBar.Core.csproj">
-      <Project>{644996a2-ae11-4ae9-a290-e4630b381f59}</Project>
+      <Project>{ea07e627-a59f-4c4f-be37-c254af1395bd}</Project>
       <Name>MenuBar.Core</Name>
     </ProjectReference>
   </ItemGroup>
