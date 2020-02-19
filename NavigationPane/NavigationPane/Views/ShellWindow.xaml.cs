@@ -18,5 +18,8 @@ namespace NavigationPane.Views
 
         public void ShowWindow()
             => Show();
+
+        public void CloseWindow()
+            => Close();
     }
 }

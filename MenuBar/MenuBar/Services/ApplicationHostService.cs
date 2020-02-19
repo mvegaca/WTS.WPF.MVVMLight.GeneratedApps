@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+
+using GalaSoft.MvvmLight.Ioc;
 
 using MenuBar.Contracts.Services;
 using MenuBar.Contracts.Views;
@@ -10,17 +13,14 @@ namespace MenuBar.Services
     {
         private readonly INavigationService _navigationService;
         private readonly IPersistAndRestoreService _persistAndRestoreService;
-
         private readonly IThemeSelectorService _themeSelectorService;
+        private readonly IRightPaneService _rightPaneService;
+        private IShellWindow _shellWindow;
 
-        private readonly IShellWindow _shellWindow;
-
-        public ApplicationHostService(INavigationService navigationService, IShellWindow shellWindow, IRightPaneService rightPaneService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService)
+        public ApplicationHostService(INavigationService navigationService, IRightPaneService rightPaneService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService)
         {
             _navigationService = navigationService;
-            _shellWindow = shellWindow;
-            _navigationService.Initialize(_shellWindow.GetNavigationFrame());
-            rightPaneService.Initialize(_shellWindow.GetRightPaneFrame(), _shellWindow.GetSplitView());
+            _rightPaneService = rightPaneService;
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
         }
@@ -30,6 +30,9 @@ namespace MenuBar.Services
             // Initialize services that you need before app activation
             await InitializeAsync();
 
+            _shellWindow = SimpleIoc.Default.GetInstance<IShellWindow>();
+            _navigationService.Initialize(_shellWindow.GetNavigationFrame());
+            _rightPaneService.Initialize(_shellWindow.GetRightPaneFrame(), _shellWindow.GetSplitView());
             _shellWindow.ShowWindow();
             _navigationService.NavigateTo(typeof(MainViewModel).FullName);
 

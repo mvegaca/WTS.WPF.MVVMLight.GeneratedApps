@@ -13,7 +13,7 @@ using NavigationPane.Strings;
 
 namespace NavigationPane.ViewModels
 {
-    public class ShellViewModel : ViewModelBase, IDisposable
+    public class ShellViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private HamburgerMenuItem _selectedMenuItem;
@@ -21,6 +21,8 @@ namespace NavigationPane.ViewModels
         private RelayCommand _goBackCommand;
         private ICommand _menuItemInvokedCommand;
         private ICommand _optionsMenuItemInvokedCommand;
+        private ICommand _loadedCommand;
+        private ICommand _unloadedCommand;
 
         public HamburgerMenuItem SelectedMenuItem
         {
@@ -53,13 +55,21 @@ namespace NavigationPane.ViewModels
 
         public ICommand OptionsMenuItemInvokedCommand => _optionsMenuItemInvokedCommand ?? (_optionsMenuItemInvokedCommand = new RelayCommand(OnOptionsMenuItemInvoked));
 
+        public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
+
+        public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(OnUnloaded));
+
         public ShellViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             _navigationService.Navigated += OnNavigated;
         }
 
-        public void Dispose()
+        private void OnLoaded()
+        {
+        }
+
+        private void OnUnloaded()
         {
             _navigationService.Navigated -= OnNavigated;
         }
@@ -71,16 +81,24 @@ namespace NavigationPane.ViewModels
             => _navigationService.GoBack();
 
         private void OnMenuItemInvoked()
-            => _navigationService.NavigateTo(SelectedMenuItem.TargetPageType.FullName);
+            => NavigateTo(SelectedMenuItem.TargetPageType);
 
         private void OnOptionsMenuItemInvoked()
-            => _navigationService.NavigateTo(SelectedOptionsMenuItem.TargetPageType.FullName);
+            => NavigateTo(SelectedOptionsMenuItem.TargetPageType);
+
+        private void NavigateTo(Type targetViewModel)
+        {
+            if (targetViewModel != null)
+            {
+                _navigationService.NavigateTo(targetViewModel.FullName);
+            }
+        }
 
         private void OnNavigated(object sender, string viewModelName)
         {
             var item = MenuItems
                         .OfType<HamburgerMenuItem>()
-                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName);
+                        .FirstOrDefault(i => viewModelName == i.TargetPageType?.FullName);
             if (item != null)
             {
                 SelectedMenuItem = item;
@@ -89,7 +107,7 @@ namespace NavigationPane.ViewModels
             {
                 SelectedOptionsMenuItem = OptionMenuItems
                         .OfType<HamburgerMenuItem>()
-                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName);
+                        .FirstOrDefault(i => viewModelName == i.TargetPageType?.FullName);
             }
 
             GoBackCommand.RaiseCanExecuteChanged();

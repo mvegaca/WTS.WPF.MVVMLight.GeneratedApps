@@ -4,17 +4,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RootNamespace>MenuBar</RootNamespace>
     <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0531" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview9.1" />
-    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MenuBar.Core\MenuBar.Core.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Strings\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -22,17 +13,27 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Strings\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0" />
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MenuBar.Core\MenuBar.Core.csproj">
+      <Project>{644996a2-ae11-4ae9-a290-e4630b381f59}</Project>
+      <Name>MenuBar.Core</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -10,6 +10,8 @@ namespace MenuBar.Contracts.Views
 
         void ShowWindow();
 
+        void CloseWindow();
+
         Frame GetRightPaneFrame();
 
         SplitView GetSplitView();

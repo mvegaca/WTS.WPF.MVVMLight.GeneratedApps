@@ -1,19 +1,26 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+
+using MahApps.Metro.Controls;
+
+using MenuBar.Contracts.Services;
+using MenuBar.Contracts.ViewModels;
 
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Wpf.UI.Controls;
 
 namespace MenuBar.ViewModels
 {
-    public class WebViewViewModel : ViewModelBase
+    public class WebViewViewModel : ViewModelBase, INavigationAware
     {
         // TODO WTS: Set the URI of the page to show by default
         private const string DefaultUrl = "https://docs.microsoft.com/windows/apps/";
+        private readonly IRightPaneService _rightPaneService;
+
+        private readonly ISystemService _systemService;
 
         private string _source;
         private bool _isLoading = true;
@@ -72,9 +79,11 @@ namespace MenuBar.ViewModels
 
         public ICommand OpenInBrowserCommand => _openInBrowserCommand ?? (_openInBrowserCommand = new RelayCommand(OnOpenInBrowser));
 
-        public WebViewViewModel()
+        public WebViewViewModel(ISystemService systemService, IRightPaneService rightPaneService)
         {
+            _systemService = systemService;
             Source = DefaultUrl;
+            _rightPaneService = rightPaneService;
         }
 
         public void Initialize(WebView webView)
@@ -85,13 +94,14 @@ namespace MenuBar.ViewModels
         public void OnNavigationCompleted(WebViewControlNavigationCompletedEventArgs e)
         {
             IsLoading = false;
-            BrowserBackCommand.RaiseCanExecuteChanged();
-            BrowserForwardCommand.RaiseCanExecuteChanged();
             if (e != null && !e.IsSuccess)
             {
                 // Use `args.WebErrorStatus` to vary the displayed message based on the error reason
                 IsShowingFailedMessage = true;
             }
+
+            BrowserBackCommand.RaiseCanExecuteChanged();
+            BrowserForwardCommand.RaiseCanExecuteChanged();
         }
 
         private void OnRefresh()
@@ -102,15 +112,31 @@ namespace MenuBar.ViewModels
         }
 
         private void OnOpenInBrowser()
+            => _systemService.OpenInWebBrowser(Source);
+
+        public void OnNavigatedTo(object parameter)
         {
-            // There is an open Issue on this
-            // https://github.com/dotnet/corefx/issues/10361
-            ProcessStartInfo psi = new ProcessStartInfo
-            {
-                FileName = Source,
-                UseShellExecute = true
-            };
-            Process.Start(psi);
+            _rightPaneService.PaneOpened += OnRightPaneOpened;
+            _rightPaneService.PaneClosed += OnRightPaneClosed;
         }
+
+        public void OnNavigatedFrom()
+        {
+            _rightPaneService.PaneOpened -= OnRightPaneOpened;
+            _rightPaneService.PaneClosed -= OnRightPaneClosed;
+        }
+
+        private void OnRightPaneOpened(object sender, System.EventArgs e)
+        {
+            // WebView control is always rendered on top
+            // We need to adapt the WebView to be able to show the right pane
+            if (sender is SplitView splitView)
+            {
+                _webView.Margin = new Thickness(0, 0, splitView.OpenPaneLength, 0);
+            }
+        }
+
+        private void OnRightPaneClosed(object sender, System.EventArgs e)
+         => _webView.Margin = new Thickness(0);
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using System.Text;
 
-using MenuBar.Core.Contracts.Services;
+using ForcedLogin.Core.Contracts.Services;
 
 using Newtonsoft.Json;
 
-namespace MenuBar.Core.Services
+namespace ForcedLogin.Core.Services
 {
-    public class FilesService : IFilesService
+    public class FileService : IFileService
     {
         public T Read<T>(string folderPath, string fileName)
         {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
     <VisualStudioVersion>15.0</VisualStudioVersion>
@@ -50,12 +50,14 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>3BA51A54-C91F-4A66-B8D1-AA575B8779BA</ProjectGuid>
+    <ProjectGuid>8B20DCB2-697C-4928-9E6F-C9F08E6C4DC7</ProjectGuid>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\NavigationPane\NavigationPane.csproj</EntryPointProjectUniqueName>
+    <PackageCertificateKeyFile>NavigationPane.Packaging_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -70,12 +72,29 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
-	<None Include="NavigationPane.Packaging_TemporaryKey.pfx" />
+    <None Include="NavigationPane.Packaging_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NavigationPane\NavigationPane.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs,Version=14.0">
+      <TargetedSDKConfiguration Condition="'$(Configuration)'!='Debug'">Retail</TargetedSDKConfiguration>
+      <TargetedSDKConfiguration Condition="'$(Configuration)'=='Debug'">Debug</TargetedSDKConfiguration>
+      <TargetedSDKArchitecture>$(PlatformShortName)</TargetedSDKArchitecture>
+      <Implicit>true</Implicit>
+    </SDKReference>
+  </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+  <Target Name="_StompSourceProjectForWapProject" BeforeTargets="_ConvertItems">
+    <ItemGroup>
+      <_TemporaryFilteredWapProjOutput Include="@(_FilteredNonWapProjProjectOutput)" />
+      <_FilteredNonWapProjProjectOutput Remove="@(_TemporaryFilteredWapProjOutput)" />
+      <_FilteredNonWapProjProjectOutput Include="@(_TemporaryFilteredWapProjOutput)">
+        <SourceProject></SourceProject>
+      </_FilteredNonWapProjProjectOutput>
+    </ItemGroup>
+  </Target>
 </Project>

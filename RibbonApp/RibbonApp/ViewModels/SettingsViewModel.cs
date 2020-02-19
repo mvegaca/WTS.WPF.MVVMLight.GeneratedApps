@@ -12,10 +12,12 @@ using RibbonApp.Models;
 
 namespace RibbonApp.ViewModels
 {
+    // TODO WTS: Change the URL for your privacy policy in the appsettings.json file, currently set to https://YourPrivacyUrlGoesHere
     public class SettingsViewModel : ViewModelBase, INavigationAware
     {
         private readonly AppConfig _config;
         private readonly IThemeSelectorService _themeSelectorService;
+        private readonly ISystemService _systemService;
         private AppTheme _theme;
         private string _versionDescription;
         private ICommand _setThemeCommand;
@@ -37,10 +39,11 @@ namespace RibbonApp.ViewModels
 
         public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new RelayCommand(OnPrivacyStatement));
 
-        public SettingsViewModel(AppConfig config, IThemeSelectorService themeSelectorService)
+        public SettingsViewModel(AppConfig config, IThemeSelectorService themeSelectorService, ISystemService systemService)
         {
             _config = config;
             _themeSelectorService = themeSelectorService;
+            _systemService = systemService;
         }
 
         public void OnNavigatedTo(object parameter)
@@ -68,15 +71,6 @@ namespace RibbonApp.ViewModels
         }
 
         private void OnPrivacyStatement()
-        {
-            // There is an open Issue on this
-            // https://github.com/dotnet/corefx/issues/10361
-            ProcessStartInfo psi = new ProcessStartInfo
-            {
-                FileName = _config.PrivacyStatement,
-                UseShellExecute = true
-            };
-            Process.Start(psi);
-        }
+            => _systemService.OpenInWebBrowser(_config.PrivacyStatement);
     }
 }

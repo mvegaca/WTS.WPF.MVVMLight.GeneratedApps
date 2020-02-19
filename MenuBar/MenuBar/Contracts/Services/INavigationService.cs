@@ -12,5 +12,9 @@ namespace MenuBar.Contracts.Services
         void Initialize(Frame shellFrame);
 
         void NavigateTo(string pageKey, object parameter, bool clearNavigation);
+
+        void UnsubscribeNavigation();
+
+        void CleanNavigation();
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+
+using GalaSoft.MvvmLight.Ioc;
 
 using NavigationPane.Contracts.Services;
 using NavigationPane.Contracts.Views;
@@ -10,16 +13,12 @@ namespace NavigationPane.Services
     {
         private readonly INavigationService _navigationService;
         private readonly IPersistAndRestoreService _persistAndRestoreService;
-
         private readonly IThemeSelectorService _themeSelectorService;
+        private IShellWindow _shellWindow;
 
-        private readonly IShellWindow _shellWindow;
-
-        public ApplicationHostService(INavigationService navigationService, IShellWindow shellWindow, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService)
+        public ApplicationHostService(INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService)
         {
             _navigationService = navigationService;
-            _shellWindow = shellWindow;
-            _navigationService.Initialize(_shellWindow.GetNavigationFrame());
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
         }
@@ -29,6 +28,8 @@ namespace NavigationPane.Services
             // Initialize services that you need before app activation
             await InitializeAsync();
 
+            _shellWindow = SimpleIoc.Default.GetInstance<IShellWindow>();
+            _navigationService.Initialize(_shellWindow.GetNavigationFrame());
             _shellWindow.ShowWindow();
             _navigationService.NavigateTo(typeof(MainViewModel).FullName);
 
